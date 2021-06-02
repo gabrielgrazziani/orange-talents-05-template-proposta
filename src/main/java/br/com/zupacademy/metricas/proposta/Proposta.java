@@ -1,7 +1,6 @@
 package br.com.zupacademy.metricas.proposta;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

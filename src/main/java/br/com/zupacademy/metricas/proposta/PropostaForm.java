@@ -8,10 +8,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import br.com.zupacademy.metricas.geral.CpfOuCnpj;
+import br.com.zupacademy.metricas.geral.UniqueValue;
 
 public class PropostaForm {
+	
 	@NotBlank
 	@CpfOuCnpj
+	@UniqueValue(domainClass = Proposta.class,fieldName = "documento")
 	private String documento;
 	@NotBlank
 	@Email
