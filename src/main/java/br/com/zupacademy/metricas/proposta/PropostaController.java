@@ -5,6 +5,8 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +24,8 @@ import feign.FeignException.UnprocessableEntity;
 @RequestMapping("/proposta")
 public class PropostaController {
 
+	private final Logger logger = LoggerFactory.getLogger(PropostaController.class);
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 	@Autowired
@@ -41,6 +45,9 @@ public class PropostaController {
 			estado = Estado.NAO_ELEGIVEL;			
 		}
 		proposta.setEstado(estado);
+		
+		String documentoOfuscado =  proposta.getDocumento().substring(0, 3);
+		logger.info("Proposta documento={}.***.***.***-** estado={} criado com sucesso!",documentoOfuscado,estado);
 		
 		UriComponents uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
 			.path("/{id}").buildAndExpand(proposta.getId());
