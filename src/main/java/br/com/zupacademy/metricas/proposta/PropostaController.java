@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 
+import br.com.zupacademy.metricas.config.feign.SolicitacaoComRestricao;
 import br.com.zupacademy.metricas.geral.ApiDeAnalise;
 import br.com.zupacademy.metricas.geral.SolicitacaoRequest;
-import feign.FeignException.UnprocessableEntity;
 
 @RestController
 @RequestMapping("/proposta")
@@ -41,7 +41,7 @@ public class PropostaController {
 		try {
 			analise.solicitacao(new SolicitacaoRequest(proposta));
 			estado = Estado.ELEGIVEL;
-		} catch (UnprocessableEntity e) {
+		} catch (SolicitacaoComRestricao e) {
 			estado = Estado.NAO_ELEGIVEL;			
 		}
 		proposta.setEstado(estado);

@@ -41,5 +41,24 @@ public class PropostaForm {
 		return new Proposta(documento, email, nome, enderaco, salario);
 	}
 
-	
+	public String getDocumento() {
+		return documento;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getEnderaco() {
+		return enderaco;
+	}
+
+	public BigDecimal getSalario() {
+		return salario;
+	}
+
 }
