@@ -37,6 +37,7 @@ public class Proposta {
 	private BigDecimal salario;
 	@Enumerated(EnumType.STRING)
 	private Estado estado;
+	private String numeroCartao;
 	
 	public Proposta(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome,
 			@NotBlank String enderaco, @NotNull @PositiveOrZero BigDecimal salario) {
@@ -55,6 +56,10 @@ public class Proposta {
 
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+	
+	public void setNumeroCartao(String numeroCartao) {
+		this.numeroCartao = numeroCartao;
 	}
 	
 	public Long getId() {
