@@ -74,4 +74,8 @@ public class Proposta {
 		return this.documento;
 	}
 	
+	public String getNumeroCartao() {
+		return numeroCartao;
+	}
+	
 }
