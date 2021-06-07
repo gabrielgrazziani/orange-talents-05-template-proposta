@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.util.UriComponents;
 import br.com.zupacademy.metricas.config.feign.SolicitacaoComRestricao;
 import br.com.zupacademy.metricas.geral.ApiDeAnalise;
 import br.com.zupacademy.metricas.geral.SolicitacaoRequest;
+import br.com.zupacademy.metricas.geral.SolicitacaoResponse;
 
 @RestController
 @RequestMapping("/proposta")
@@ -39,7 +41,8 @@ public class PropostaController {
 		
 		Estado estado;
 		try {
-			analise.solicitacao(new SolicitacaoRequest(proposta));
+			SolicitacaoResponse solicitacao = analise.solicitacao(new SolicitacaoRequest(proposta));
+			Assert.state(solicitacao.getResultadoSolicitacao().equals("SEM_RESTRICAO"),"O estado Resultado da Solicitacao esperado e SEM_RESTRICAO");
 			estado = Estado.ELEGIVEL;
 		} catch (SolicitacaoComRestricao e) {
 			estado = Estado.NAO_ELEGIVEL;			

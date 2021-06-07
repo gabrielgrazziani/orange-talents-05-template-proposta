@@ -133,8 +133,34 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_TOKEN: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_ADDR: http://127.0.0.1:8200
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "gabriel-dev"
+      MYSQL_DATABASE: "dev"
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mysql-volume:/var/lib/mysql
+  proposta:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: proposta
+    environment:
+      ANALISE_URL: "http://analise:9999/api"
+      CARTAO_URL: "http://contas:8888/api"
+      BANCO_DE_DADOS_URL: "jdbc:mysql://mysql:3306/dev"
+    depends_on:
+      - mysql
+      - analise
+      - contas
+    ports:
+      - 8080:8080
 
 volumes:
   grafana-volume:
   prometheus-volume:
   postgres-volume:
+  mysql-volume:
