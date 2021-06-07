@@ -69,13 +69,13 @@ public class Proposta {
 	public String getNome() {
 		return this.nome;
 	}
-
-	public String getDocumento() {
-		return this.documento;
-	}
 	
-	public String getNumeroCartao() {
-		return numeroCartao;
+	public String getDocumento() {
+		return documento;
+	}
+
+	public Estado getEstado() {
+		return this.estado;
 	}
 	
 }
