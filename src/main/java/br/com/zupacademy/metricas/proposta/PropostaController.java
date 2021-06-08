@@ -2,13 +2,13 @@ package br.com.zupacademy.metricas.proposta;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,16 +30,44 @@ public class PropostaController {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	@Autowired
+	private TransactionTemplate transactionTemplate;
+	
 	@Autowired
 	private ApiDeAnalise analise;
 	
 	@PostMapping
-	@Transactional
 	public ResponseEntity<?> cria(@Valid @RequestBody PropostaForm form){
 		Proposta proposta = form.map();
-		entityManager.persist(proposta);
 		
-		Estado estado;
+		transactionTemplate.execute(status -> {
+			entityManager.persist(proposta);			
+			return proposta;
+		});
+		
+		proposta.setEstado(descobrirEstado(proposta));
+		
+		transactionTemplate.execute(status -> {
+			entityManager.merge(proposta);
+			return proposta;
+		});
+		
+		logPropostaCriada(proposta);
+		
+		UriComponents uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+			.path("/{id}").buildAndExpand(proposta.getId());
+		
+		return ResponseEntity.created(uri.toUri()).build();
+	}
+
+	private void logPropostaCriada(Proposta proposta) {
+		String documentoOfuscado =  proposta.getDocumento().substring(0, 3);
+		logger.info("Proposta documento={}.***.***.***-** estado={} criado com sucesso!",documentoOfuscado,proposta.getEstado());
+	}
+
+	private Estado descobrirEstado(Proposta proposta) {
+		Estado estado = Estado.NAO_ELEGIVEL;
 		try {
 			SolicitacaoResponse solicitacao = analise.solicitacao(new SolicitacaoRequest(proposta));
 			Assert.state(solicitacao.getResultadoSolicitacao().equals("SEM_RESTRICAO"),"O estado Resultado da Solicitacao esperado e SEM_RESTRICAO");
@@ -47,15 +75,7 @@ public class PropostaController {
 		} catch (SolicitacaoComRestricao e) {
 			estado = Estado.NAO_ELEGIVEL;			
 		}
-		proposta.setEstado(estado);
-		
-		String documentoOfuscado =  proposta.getDocumento().substring(0, 3);
-		logger.info("Proposta documento={}.***.***.***-** estado={} criado com sucesso!",documentoOfuscado,estado);
-		
-		UriComponents uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
-			.path("/{id}").buildAndExpand(proposta.getId());
-		
-		return ResponseEntity.created(uri.toUri()).build();
+		return estado;
 	}
 	
 }
