@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PropostaReposirory extends JpaRepository<Proposta, Long>{
 
-	@Query("select p from Proposta p where p.estado = br.com.zupacademy.metricas.proposta.Estado.ELEGIVEL and p.numeroCartao = null")
-	List<Proposta> propostasElegiveisSemNumeroDeCartao();
+	@Query("select p from Proposta p where p.estado = br.com.zupacademy.metricas.proposta.Estado.ELEGIVEL and p.cartao = null")
+	List<Proposta> propostasElegiveisSemCartao();
 
 }

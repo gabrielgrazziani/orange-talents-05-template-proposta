@@ -2,12 +2,15 @@ package br.com.zupacademy.metricas.proposta;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,7 +40,9 @@ public class Proposta {
 	private BigDecimal salario;
 	@Enumerated(EnumType.STRING)
 	private Estado estado;
-	private String numeroCartao;
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "cartao_id")
+	private Cartao cartao;
 	
 	public Proposta(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome,
 			@NotBlank String enderaco, @NotNull @PositiveOrZero BigDecimal salario) {
@@ -58,8 +63,8 @@ public class Proposta {
 		this.estado = estado;
 	}
 	
-	public void setNumeroCartao(String numeroCartao) {
-		this.numeroCartao = numeroCartao;
+	public void setCartao(Cartao cartao) {
+		this.cartao = cartao;
 	}
 	
 	public Long getId() {
@@ -76,6 +81,10 @@ public class Proposta {
 
 	public Estado getEstado() {
 		return this.estado;
+	}
+
+	public Cartao getCartao() {
+		return this.cartao;
 	}
 	
 }

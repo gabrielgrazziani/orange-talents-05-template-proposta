@@ -17,10 +17,16 @@ public class AssociarCartaoAUmaProposta {
 	private PropostaReposirory propostaReposirory;
 	@Autowired
 	private ApiDeCartao apiDeCartao;
+	
+    public AssociarCartaoAUmaProposta(PropostaReposirory propostaReposirory, ApiDeCartao apiDeCartao) {
+		super();
+		this.propostaReposirory = propostaReposirory;
+		this.apiDeCartao = apiDeCartao;
+	}
 
-    @Scheduled(fixedDelayString = "${periodicidade.associar-cartao-a-uma-proposta}")
-    private void associar() {
-    	List<Proposta> propostas = propostaReposirory.propostasElegiveisSemNumeroDeCartao();
+	@Scheduled(fixedDelayString = "${periodicidade.associar-cartao-a-uma-proposta}")
+    public void associar() {
+    	List<Proposta> propostas = propostaReposirory.propostasElegiveisSemCartao();
     	propostas.forEach(p -> {
     		associar(p);
     	});
@@ -29,7 +35,7 @@ public class AssociarCartaoAUmaProposta {
 	private void associar(Proposta proposta) {
 		try {
     		CartaoResponse cartao = apiDeCartao.buscaCartao(proposta.getId());
-    		proposta.setNumeroCartao(cartao.getId());
+    		proposta.setCartao(cartao.map());
     		propostaReposirory.save(proposta);
 		} catch (FeignException e) {
 		}
