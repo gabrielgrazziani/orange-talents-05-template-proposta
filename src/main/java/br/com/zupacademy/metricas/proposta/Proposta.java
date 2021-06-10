@@ -40,7 +40,7 @@ public class Proposta {
 	private BigDecimal salario;
 	@Enumerated(EnumType.STRING)
 	private Estado estado;
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "cartao_id")
 	private Cartao cartao;
 	
