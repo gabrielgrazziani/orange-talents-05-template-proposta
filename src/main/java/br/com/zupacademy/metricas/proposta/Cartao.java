@@ -35,8 +35,12 @@ public class Cartao {
 		this.codigoCartao = codigoCartao;
 	}
 	
-	public void novaBiomatrias(Biometria biomatria) {
+	public void novaBiometrias(Biometria biomatria) {
 		biomatrias.add(biomatria);
+	}
+	
+	public Biometria ultimaBiometria() {
+		return biomatrias.get(biomatrias.size()-1);
 	}
 	
 	public List<Biometria> getBiomatrias() {

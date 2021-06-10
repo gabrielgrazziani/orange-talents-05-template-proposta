@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +24,6 @@ public class BiometriaController {
 	private CartaoRepository cartaoRepository;
 	
 	@PostMapping("cartao/{codigoCartao}/biometria")
-	@Transactional
 	public ResponseEntity<?> novaBiometria(@PathVariable String codigoCartao,
 			@Valid @RequestBody BiometriaForm form) {
 		Optional<Cartao> cartaoOpt = cartaoRepository.findByCodigoCartao(codigoCartao);
@@ -35,11 +34,11 @@ public class BiometriaController {
 		Cartao cartao = cartaoOpt.get();
 		
 		Biometria biomatria = form.map(cartao);
-		cartao.novaBiomatrias(biomatria);
-		cartao = cartaoRepository.saveAndFlush(cartao);
+		cartao.novaBiometrias(biomatria);
+		cartao = cartaoRepository.save(cartao);
+		biomatria = cartao.ultimaBiometria();
 		
-		//O id esta vindo nulo
-//		Assert.state(biomatria.getId() != null,"Biometria deveria ter um id neste ponto");
+		Assert.state(biomatria.getId() != null,"Biometria deveria ter um id neste ponto");
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 			.path("/{idBiometria}").buildAndExpand(biomatria.getId()).toUri();
 		
