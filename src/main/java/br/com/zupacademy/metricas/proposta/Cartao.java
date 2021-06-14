@@ -23,6 +23,11 @@ public class Cartao {
 	@Column(unique = true)
 	private String codigoCartao;
 	
+	private boolean bloqueado;
+	
+	@OneToMany(mappedBy = "cartao",cascade = {CascadeType.MERGE})
+	private List<Bloqueio> bloqueios = new ArrayList<>();
+	
 	@OneToMany(mappedBy = "cartao",cascade = {CascadeType.MERGE})
 	private List<Biometria> biomatrias = new ArrayList<>();
 	
@@ -33,6 +38,7 @@ public class Cartao {
 
 	public Cartao(@NotBlank String codigoCartao) {
 		this.codigoCartao = codigoCartao;
+		this.bloqueado = false;
 	}
 	
 	public void novaBiometrias(Biometria biomatria) {
@@ -45,5 +51,22 @@ public class Cartao {
 	
 	public List<Biometria> getBiomatrias() {
 		return biomatrias;
+	}
+
+	public boolean tentarBloquear(Bloqueio bloqueio) {
+		if(bloqueado) return false;
+		
+		bloqueios.add(bloqueio);
+		bloqueado = true;
+		
+		return true;
+	}
+
+	public boolean estaBloqueado() {
+		return this.bloqueado;
+	}
+
+	public List<Bloqueio> getBloqueios() {
+		return this.bloqueios;
 	}
 }

@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
