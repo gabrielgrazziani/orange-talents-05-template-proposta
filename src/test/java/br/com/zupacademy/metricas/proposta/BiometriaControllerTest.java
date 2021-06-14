@@ -1,6 +1,7 @@
 package br.com.zupacademy.metricas.proposta;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -14,10 +15,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
+@SpringBootTest()
 @AutoConfigureMockMvc
 @AutoConfigureDataJpa
 @ActiveProfiles("test")
@@ -40,8 +42,9 @@ class BiometriaControllerTest {
 		String jsom = "{\"fingerprint\":\""+FINGERPRINT+"\"}";
 		
 		mockMvc.perform(post("/cartao/"+CODIGO_CARTAO+"/biometria")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(jsom))
+					.contentType(MediaType.APPLICATION_JSON)
+					.with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_cartoes:write")))
+					.content(jsom))
 				.andExpect(status().isCreated());
 
 		List<Biometria> biomatrias =cartaoRepository

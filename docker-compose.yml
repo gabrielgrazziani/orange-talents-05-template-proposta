@@ -52,6 +52,7 @@ services:
       - transacoes
       - postgres
     environment:
+      KEYCLOAK_FRONTEND_URL: http://keycloak:8080/auth
       DB_VENDOR: postgres
       DB_ADDR: postgres
       DB_PORT: 5432
@@ -149,9 +150,13 @@ services:
       context: .
     container_name: proposta
     environment:
+      KEYCLOAK_ISSUER_URI: "http://keycloak:8080/auth/realms/proposta"
+      KEYCLOAK_JWKS_URI: "http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/certs"
       ANALISE_URL: "http://analise:9999/api"
       CARTAO_URL: "http://contas:8888/api"
       BANCO_DE_DADOS_URL: "jdbc:mysql://mysql:3306/dev"
+      BANCO_DE_DADOS_USERNAME: "root"
+      BANCO_DE_DADOS_PASSWORD: "gabriel-dev"
     depends_on:
       - mysql
       - analise

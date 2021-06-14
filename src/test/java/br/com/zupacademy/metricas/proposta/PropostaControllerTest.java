@@ -3,11 +3,13 @@ package br.com.zupacademy.metricas.proposta;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -19,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
@@ -59,8 +62,10 @@ public class PropostaControllerTest {
 		Mockito.when(apiDeAnalise.solicitacao(any())).thenReturn(solicitacaoResponse);
 		
 		mockMvc.perform(post("/proposta")
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(jsom))
+				.contentType(MediaType.APPLICATION_JSON)
+				.with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_propostas:write")))
+				.content(jsom))
+			.andDo(print())
 			.andExpect(status().isCreated());
 		
 		Proposta proposta = entityManager.createQuery("select p from Proposta p where p.email = :email",Proposta.class)
@@ -79,8 +84,9 @@ public class PropostaControllerTest {
 		Mockito.when(apiDeAnalise.solicitacao(any())).thenThrow(new SolicitacaoComRestricao());
 		
 		mockMvc.perform(post("/proposta")
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(jsom))
+				.contentType(MediaType.APPLICATION_JSON)
+				.with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_propostas:write")))
+				.content(jsom))
 			.andExpect(status().isCreated());
 		
 		Proposta proposta = entityManager.createQuery("select p from Proposta p where p.email = :email",Proposta.class)
