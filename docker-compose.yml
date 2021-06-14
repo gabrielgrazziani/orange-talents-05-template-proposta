@@ -38,7 +38,7 @@ services:
     image: jboss/keycloak
     ports:
       - 18443:8443
-      - 18080:8080
+      - 8080:8080
       - 19990:9990
     depends_on:
       # Just a delay to wait for postgres! This is not recommended!
@@ -157,12 +157,13 @@ services:
       BANCO_DE_DADOS_URL: "jdbc:mysql://mysql:3306/dev"
       BANCO_DE_DADOS_USERNAME: "root"
       BANCO_DE_DADOS_PASSWORD: "gabriel-dev"
+      SERVER_PORT: "8080"
     depends_on:
       - mysql
       - analise
       - contas
     ports:
-      - 8080:8080
+      - 8081:8080
 
 volumes:
   grafana-volume:
