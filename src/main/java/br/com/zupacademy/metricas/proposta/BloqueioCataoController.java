@@ -1,6 +1,5 @@
 package br.com.zupacademy.metricas.proposta;
 
-import java.security.Principal;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,16 +19,16 @@ public class BloqueioCataoController {
 	private CartaoRepository cartaoRepository;
 	
 	@PutMapping("/{idCartao}/bloquear")
-	public ResponseEntity<?> bloquear(@PathVariable String idCartao,Principal principal,HttpServletRequest request) {
+	public ResponseEntity<?> bloquear(@PathVariable String idCartao,HttpServletRequest request) {
 		Optional<Cartao> cartaoOpt = cartaoRepository.findByCodigoCartao(idCartao);
 		if(cartaoOpt.isEmpty()) {
 			return ResponseEntity.notFound().build();			
 		}
 		
 		Cartao cartao = cartaoOpt.get();
-		String idDeQueFezOBloqueio = principal.getName();
+		String userAgent = request.getHeader("User-Agent");
 		String ipDeQueFezOBloqueio = request.getRemoteAddr();
-		Bloqueio bloqueio = new Bloqueio(idDeQueFezOBloqueio,ipDeQueFezOBloqueio,cartao);
+		Bloqueio bloqueio = new Bloqueio(userAgent,ipDeQueFezOBloqueio,cartao);
 		
 		boolean bloqueado = cartao.tentarBloquear(bloqueio);
 		

@@ -17,7 +17,7 @@ public class Bloqueio {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotBlank
-	private String idDeQueFezOBloqueio;
+	private String userAgent;
 	@NotBlank
 	private String ipDeQueFezOBloqueio;
 	@ManyToOne
@@ -30,8 +30,8 @@ public class Bloqueio {
 	private Bloqueio() {
 	}
 	
-	public Bloqueio(String idDeQueFezOBloqueio, String ipDeQueFezOBloqueio, Cartao cartao) {
-		this.idDeQueFezOBloqueio = idDeQueFezOBloqueio;
+	public Bloqueio(String userAgent, String ipDeQueFezOBloqueio, Cartao cartao) {
+		this.userAgent = userAgent;
 		this.ipDeQueFezOBloqueio = ipDeQueFezOBloqueio;
 		this.cartao = cartao;
 		instanteCriacao = LocalDateTime.now();
@@ -42,7 +42,7 @@ public class Bloqueio {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cartao == null) ? 0 : cartao.hashCode());
-		result = prime * result + ((idDeQueFezOBloqueio == null) ? 0 : idDeQueFezOBloqueio.hashCode());
+		result = prime * result + ((userAgent == null) ? 0 : userAgent.hashCode());
 		result = prime * result + ((instanteCriacao == null) ? 0 : instanteCriacao.hashCode());
 		result = prime * result + ((ipDeQueFezOBloqueio == null) ? 0 : ipDeQueFezOBloqueio.hashCode());
 		return result;
@@ -62,10 +62,10 @@ public class Bloqueio {
 				return false;
 		} else if (!cartao.equals(other.cartao))
 			return false;
-		if (idDeQueFezOBloqueio == null) {
-			if (other.idDeQueFezOBloqueio != null)
+		if (userAgent == null) {
+			if (other.userAgent != null)
 				return false;
-		} else if (!idDeQueFezOBloqueio.equals(other.idDeQueFezOBloqueio))
+		} else if (!userAgent.equals(other.userAgent))
 			return false;
 		if (instanteCriacao == null) {
 			if (other.instanteCriacao != null)

@@ -49,6 +49,7 @@ class BloqueioCataoControllerTest {
 		
 		mockMvc.perform(put("/cartao/12345/bloquear")
 				.with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_cartoes:write")))
+				.header("User-Agent", "mock-mvc")
 				.content(jsom))
 			.andExpect(status().isOk());
 		
