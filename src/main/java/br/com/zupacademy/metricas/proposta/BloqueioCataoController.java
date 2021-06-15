@@ -11,9 +11,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.zupacademy.metricas.geral.ApiDeCartao;
+import br.com.zupacademy.metricas.geral.ApiDeCartao.SolicitacaoBloqueio;
+import feign.FeignException.FeignClientException;
+
 @RestController
 @RequestMapping("/cartao")
 public class BloqueioCataoController {
+	
+	@Autowired
+	private ApiDeCartao apiDeCartao;
 
 	@Autowired
 	private CartaoRepository cartaoRepository;
@@ -24,11 +31,9 @@ public class BloqueioCataoController {
 		if(cartaoOpt.isEmpty()) {
 			return ResponseEntity.notFound().build();			
 		}
-		
 		Cartao cartao = cartaoOpt.get();
-		String userAgent = request.getHeader("User-Agent");
-		String ipDeQueFezOBloqueio = request.getRemoteAddr();
-		Bloqueio bloqueio = new Bloqueio(userAgent,ipDeQueFezOBloqueio,cartao);
+		
+		Bloqueio bloqueio = new Bloqueio(request.getHeader("User-Agent"),request.getRemoteAddr(),cartao);
 		
 		boolean bloqueado = cartao.tentarBloquear(bloqueio);
 		
@@ -36,7 +41,14 @@ public class BloqueioCataoController {
 			return ResponseEntity.unprocessableEntity().build();
 		}
 		
+		try {
+			apiDeCartao.bloqueiaCartao(idCartao,new SolicitacaoBloqueio("Sistema de Propostas"));
+		} catch (FeignClientException e) {
+			return ResponseEntity.status(e.status()).build();
+		}
+	
 		cartaoRepository.save(cartao);
 		return ResponseEntity.ok().build();
 	}
+	
 }
