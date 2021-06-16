@@ -43,14 +43,12 @@ public class PropostaController {
 	private ApiDeAnalise analise;
 	
 	@PostMapping
-	@Timed(value = "proposta_timed",extraTags = {"banco","Itaú"})
+//	@Timed(value = "proposta_timed",extraTags = {"banco","Itaú"})
 	public ResponseEntity<?> cria(@Valid @RequestBody PropostaForm form){
 		Proposta proposta = form.map();
 		
-		metricasProposta.medirTempoExecucao(() -> {
-			criarProposta(proposta);
-			metricasProposta.contar();
-		});
+		criarProposta(proposta);
+		metricasProposta.contar();
 		
 		UriComponents uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
 			.path("/{id}").buildAndExpand(proposta.getId());

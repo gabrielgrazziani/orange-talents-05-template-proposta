@@ -19,58 +19,56 @@ public class MetricasProposta {
 
 	private final MeterRegistry meterRegistry;
 
-    private final Collection<String> strings = new ArrayList<>();
-
-    private final Random random = new Random();
-
-	private Counter contadorDePropostasCriadas;
-
-	private Timer timerConsultarProposta;
+//    private final Collection<String> strings = new ArrayList<>();
+//
+//    private final Random random = new Random();
+//
+//	private Timer timerConsultarProposta;
 
     public MetricasProposta(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
-        criarGauge();
+//        criarGauge();
         
-        contadorDePropostasCriadas = this.meterRegistry.counter("proposta_criada", tags());
-        timerConsultarProposta = this.meterRegistry.timer("consultar_proposta", tags());
+//        timerConsultarProposta = this.meterRegistry.timer("consultar_proposta");
     }
     
     public void contar() {
+    	Counter contadorDePropostasCriadas = this.meterRegistry.counter("proposta_criada");
     	contadorDePropostasCriadas.increment();
     }
     
-    public void medirTempoExecucao(Runnable run) {
-    	timerConsultarProposta.record(run);
-    }
+//    public void medirTempoExecucao(Runnable run) {
+//    	timerConsultarProposta.record(run);
+//    }
     
-    private Collection<Tag> tags() {
-    	Collection<Tag> tags = new ArrayList<>();
-    		tags.add(Tag.of("emissora", "Mastercard"));
-    		tags.add(Tag.of("banco", "Itaú"));
-    	return tags;
-    }
-
-    private void criarGauge() {
-        Collection<Tag> tags = tags();
-
-        this.meterRegistry.gauge("meu_gauge", tags, strings, Collection::size);
-    }
+//    private Collection<Tag> tags() {
+//    	Collection<Tag> tags = new ArrayList<>();
+//    		tags.add(Tag.of("emissora", "Mastercard"));
+//    		tags.add(Tag.of("banco", "Itaú"));
+//    	return tags;
+//    }
+//
+//    private void criarGauge() {
+//        Collection<Tag> tags = tags();
+//
+//        this.meterRegistry.gauge("meu_gauge", tags, strings, Collection::size);
+//    }
     
-    @Scheduled(fixedDelay = 1000)
-    private void simulandoGauge() {
-        double randomNumber = random.nextInt();
-        if (randomNumber % 2 == 0) {
-            addString();
-        } else {
-            removeString();
-        }
-    }
-    
-    private void removeString() {
-        strings.removeIf(Objects::nonNull);
-    }
-
-    private void addString() {
-        strings.add(UUID.randomUUID().toString());
-    }
+//    @Scheduled(fixedDelay = 1000)
+//    private void simulandoGauge() {
+//        double randomNumber = random.nextInt();
+//        if (randomNumber % 2 == 0) {
+//            addString();
+//        } else {
+//            removeString();
+//        }
+//    }
+//    
+//    private void removeString() {
+//        strings.removeIf(Objects::nonNull);
+//    }
+//
+//    private void addString() {
+//        strings.add(UUID.randomUUID().toString());
+//    }
 }
