@@ -9,11 +9,13 @@ import java.util.UUID;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tag;
+import io.micrometer.core.instrument.Timer;
 
 @Component
-public class MinhasMetricas {
+public class MetricasProposta {
 
 	private final MeterRegistry meterRegistry;
 
@@ -21,21 +23,41 @@ public class MinhasMetricas {
 
     private final Random random = new Random();
 
-    public MinhasMetricas(MeterRegistry meterRegistry) {
+	private Counter contadorDePropostasCriadas;
+
+	private Timer timerConsultarProposta;
+
+    public MetricasProposta(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
         criarGauge();
+        
+        contadorDePropostasCriadas = this.meterRegistry.counter("proposta_criada", tags());
+        timerConsultarProposta = this.meterRegistry.timer("consultar_proposta", tags());
+    }
+    
+    public void contar() {
+    	contadorDePropostasCriadas.increment();
+    }
+    
+    public void medirTempoExecucao(Runnable run) {
+    	timerConsultarProposta.record(run);
+    }
+    
+    private Collection<Tag> tags() {
+    	Collection<Tag> tags = new ArrayList<>();
+    		tags.add(Tag.of("emissora", "Mastercard"));
+    		tags.add(Tag.of("banco", "Itaú"));
+    	return tags;
     }
 
-    public void criarGauge() {
-        Collection<Tag> tags = new ArrayList<>();
-        tags.add(Tag.of("emissora", "Mastercard"));
-        tags.add(Tag.of("banco", "Itaú"));
+    private void criarGauge() {
+        Collection<Tag> tags = tags();
 
         this.meterRegistry.gauge("meu_gauge", tags, strings, Collection::size);
     }
     
     @Scheduled(fixedDelay = 1000)
-    public void simulandoGauge() {
+    private void simulandoGauge() {
         double randomNumber = random.nextInt();
         if (randomNumber % 2 == 0) {
             addString();
@@ -44,11 +66,11 @@ public class MinhasMetricas {
         }
     }
     
-    public void removeString() {
+    private void removeString() {
         strings.removeIf(Objects::nonNull);
     }
 
-    public void addString() {
+    private void addString() {
         strings.add(UUID.randomUUID().toString());
     }
 }
