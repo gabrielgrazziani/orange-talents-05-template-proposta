@@ -30,6 +30,9 @@ public class Cartao {
 	
 	@OneToMany(mappedBy = "cartao",cascade = {CascadeType.MERGE})
 	private List<Biometria> biomatrias = new ArrayList<>();
+
+	@OneToMany(mappedBy = "cartao",cascade = {CascadeType.MERGE})
+	private List<AvisoViagem> avisosViagem = new ArrayList<>();
 	
 	@SuppressWarnings("unused")
 	@Deprecated
@@ -68,5 +71,9 @@ public class Cartao {
 
 	public List<Bloqueio> getBloqueios() {
 		return this.bloqueios;
+	}
+
+	public void novoAvisoDeViagem(AvisoViagem avisoViagem) {
+		avisosViagem.add(avisoViagem);
 	}
 }
