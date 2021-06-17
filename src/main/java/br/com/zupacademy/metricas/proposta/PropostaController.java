@@ -22,7 +22,6 @@ import br.com.zupacademy.metricas.config.health_check.MetricasProposta;
 import br.com.zupacademy.metricas.geral.ApiDeAnalise;
 import br.com.zupacademy.metricas.geral.SolicitacaoRequest;
 import br.com.zupacademy.metricas.geral.SolicitacaoResponse;
-import io.micrometer.core.annotation.Timed;
 
 @RestController
 @RequestMapping("/proposta")
@@ -43,7 +42,6 @@ public class PropostaController {
 	private ApiDeAnalise analise;
 	
 	@PostMapping
-//	@Timed(value = "proposta_timed",extraTags = {"banco","Itaú"})
 	public ResponseEntity<?> cria(@Valid @RequestBody PropostaForm form){
 		Proposta proposta = form.map();
 		
