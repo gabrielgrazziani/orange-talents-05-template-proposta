@@ -1,5 +1,7 @@
 package br.com.zupacademy.metricas.proposta;
 
+import java.net.URI;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponents;
 
 import br.com.zupacademy.metricas.config.feign.SolicitacaoComRestricao;
 import br.com.zupacademy.metricas.config.health_check.MetricasProposta;
@@ -43,22 +44,10 @@ public class PropostaController {
 	private ApiDeAnalise analise;
 	
 	@PostMapping
-	@Timed(value = "proposta_timed",extraTags = {"banco","Itaú"})
+	@Timed("proposta_timed")
 	public ResponseEntity<?> cria(@Valid @RequestBody PropostaForm form){
 		Proposta proposta = form.map();
 		
-		metricasProposta.medirTempoExecucao(() -> {
-			criarProposta(proposta);
-			metricasProposta.contar();
-		});
-		
-		UriComponents uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
-			.path("/{id}").buildAndExpand(proposta.getId());
-		
-		return ResponseEntity.created(uri.toUri()).build();
-	}
-
-	private void criarProposta(Proposta proposta) {
 		transactionTemplate.execute(status -> {
 			entityManager.persist(proposta);			
 			return proposta;
@@ -71,7 +60,15 @@ public class PropostaController {
 			return proposta;
 		});
 		
+		metricasProposta.contarNovaProposta();
 		logPropostaCriada(proposta);
+		
+		return ResponseEntity.created(uri(proposta)).build();
+	}
+
+	private URI uri(Proposta proposta) {
+		return ServletUriComponentsBuilder.fromCurrentRequestUri()
+			.path("/{id}").build(proposta.getId());
 	}
 
 	private void logPropostaCriada(Proposta proposta) {
