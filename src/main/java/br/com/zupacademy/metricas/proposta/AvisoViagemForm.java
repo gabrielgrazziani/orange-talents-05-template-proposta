@@ -7,14 +7,18 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class AvisoViagemForm {
 	
 	@NotBlank
+	@JsonProperty
 	private String destino;
 
 	@NotNull
 	@Future
+	@JsonProperty
 	private LocalDate dataTerminoViagem;
 	
 	public AvisoViagemForm(@NotBlank String destino, @Future @NotNull LocalDate dataTerminoViagem) {

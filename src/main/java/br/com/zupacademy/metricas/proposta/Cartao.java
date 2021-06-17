@@ -76,4 +76,8 @@ public class Cartao {
 	public void novoAvisoDeViagem(AvisoViagem avisoViagem) {
 		avisosViagem.add(avisoViagem);
 	}
+
+	public List<AvisoViagem> getAvisosViagem() {
+		return this.avisosViagem;
+	}
 }
