@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.zupacademy.metricas.proposta.AvisoViagemForm;
+import br.com.zupacademy.metricas.proposta.CarteiraForm;
 
 @FeignClient(name = "cartao",url = "${cartao.host}")
 public interface ApiDeCartao {
@@ -26,6 +27,37 @@ public interface ApiDeCartao {
 
 	@RequestMapping(value = "/cartoes/{idCartao}/avisos",method = RequestMethod.POST)
 	ResultadoAvisoViagem avisoViagem(@PathVariable String idCartao,SolicitacaoAvisoViagem solicitacaoAvisoViagem);
+
+	@RequestMapping(value = "/cartoes/{idCartao}/carteiras",method = RequestMethod.POST)
+	ResultadoCarteira novaCarteira(@PathVariable String idCartao,SolicitacaoCarteira carteira);
+	
+	class SolicitacaoCarteira{
+		@JsonProperty
+		private String email;
+		@JsonProperty
+		private String carteira;
+
+		public SolicitacaoCarteira(CarteiraForm form) {
+			this.email = form.getEmail();
+			this.carteira = form.getTipoCarteira().name();
+		}
+	}
+	
+	class ResultadoCarteira{
+		@JsonProperty
+		private String id;
+		@JsonProperty
+		private ResultadoCarteiraEnum resultado;
+
+		public ResultadoCarteira(String id,ResultadoCarteiraEnum resultado) {
+			this.id = id;
+			this.resultado = resultado;
+		}
+	}
+	
+	enum ResultadoCarteiraEnum{
+		ASSOCIADA, FALHA;
+	}
 
 	class SolicitacaoAvisoViagem{
 		
@@ -89,5 +121,6 @@ public interface ApiDeCartao {
 	enum ResultadoBloqueioEnum{
 		BLOQUEADO, FALHA;
 	}
+
 
 }

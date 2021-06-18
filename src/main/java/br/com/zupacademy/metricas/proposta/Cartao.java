@@ -33,6 +33,9 @@ public class Cartao {
 
 	@OneToMany(mappedBy = "cartao",cascade = {CascadeType.MERGE})
 	private List<AvisoViagem> avisosViagem = new ArrayList<>();
+
+	@OneToMany(mappedBy = "cartao",cascade = {CascadeType.MERGE})
+	private List<Carteira> carteiras = new ArrayList<>();
 	
 	@SuppressWarnings("unused")
 	@Deprecated
@@ -71,6 +74,18 @@ public class Cartao {
 
 	public List<Bloqueio> getBloqueios() {
 		return this.bloqueios;
+	}
+	
+	public boolean novaCarteira(Carteira carteira) {
+		if(jaTemEsseTipoDeCarteira(carteira.getTipoCarteira())) return false;
+		this.carteiras.add(carteira);
+		return true;
+	}
+	
+	private boolean jaTemEsseTipoDeCarteira(TipoCarteira tipoCarteira) {
+		return this.carteiras.stream()
+			.filter(e -> e.getTipoCarteira() == tipoCarteira)
+			.count() > 0;
 	}
 
 	public void novoAvisoDeViagem(AvisoViagem avisoViagem) {
