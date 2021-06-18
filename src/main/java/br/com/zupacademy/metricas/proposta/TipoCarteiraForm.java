@@ -1,7 +1,8 @@
 package br.com.zupacademy.metricas.proposta;
 
 public enum TipoCarteiraForm {
-	PAY_PAL(TipoCarteira.PAY_PAL);
+	PAY_PAL(TipoCarteira.PAY_PAL),
+	SAMSUNG_PAY(TipoCarteira.SAMSUNG_PAY);
 
 	private TipoCarteira tipoCarteira;
 
