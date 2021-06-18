@@ -1,5 +1,7 @@
 package br.com.zupacademy.metricas.geral;
 
+import java.time.LocalDate;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import br.com.zupacademy.metricas.proposta.AvisoViagemForm;
 
 @FeignClient(name = "cartao",url = "${cartao.host}")
 public interface ApiDeCartao {
@@ -19,6 +24,25 @@ public interface ApiDeCartao {
 	@RequestMapping(value = "/cartoes/{idCartao}/bloqueios",method = RequestMethod.POST)
 	ResultadoBloqueio bloqueiaCartao(@PathVariable String idCartao,@RequestBody SolicitacaoBloqueio solicitacaoBloqueio);
 
+	@RequestMapping(value = "/cartoes/{idCartao}/avisos",method = RequestMethod.POST)
+	ResultadoAvisoViagem avisoViagem(@PathVariable String idCartao,SolicitacaoAvisoViagem solicitacaoAvisoViagem);
+
+	class SolicitacaoAvisoViagem{
+		
+		@JsonProperty
+		private String destino;
+
+		@JsonProperty
+		private LocalDate validoAte;
+		
+		public SolicitacaoAvisoViagem(AvisoViagemForm avisoViagem) {
+			this.validoAte = avisoViagem.getDataTerminoViagem();
+			this.destino = avisoViagem.getDestino();
+		}
+		
+	}
+	
+	
 	class SolicitacaoBloqueio{
 		
 		@JsonProperty
@@ -30,20 +54,40 @@ public interface ApiDeCartao {
 		
 	}
 	
-	class ResultadoBloqueio{
+	class ResultadoAvisoViagem{
 		@JsonProperty
-		Resultado resultado;
+		ResultadoAvisoViagemEnum resultado;
 		
-		public ResultadoBloqueio(Resultado resultado) {
+		@JsonCreator
+		public ResultadoAvisoViagem(ResultadoAvisoViagemEnum resultado) {
 			this.resultado = resultado;
 		}
 		
-		public Resultado getResultado() {
+		public ResultadoAvisoViagemEnum getResultado() {
 			return resultado;
 		}
 	}
 	
-	enum Resultado{
+	class ResultadoBloqueio{
+		@JsonProperty
+		ResultadoBloqueioEnum resultado;
+		
+		@JsonCreator
+		public ResultadoBloqueio(ResultadoBloqueioEnum resultado) {
+			this.resultado = resultado;
+		}
+		
+		public ResultadoBloqueioEnum getResultado() {
+			return resultado;
+		}
+	}
+	
+	enum ResultadoAvisoViagemEnum{
+		CRIADO,FALHA;
+	}
+	
+	enum ResultadoBloqueioEnum{
 		BLOQUEADO, FALHA;
 	}
+
 }

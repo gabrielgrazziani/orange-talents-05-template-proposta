@@ -13,23 +13,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.zupacademy.metricas.geral.ApiDeCartao;
+import br.com.zupacademy.metricas.geral.ApiDeCartao.SolicitacaoAvisoViagem;
+import feign.FeignException.FeignClientException;
+
 @RestController
 @RequestMapping("/cartao")
 public class AvisoViagemController {
 
 	@Autowired
 	private CartaoRepository cartaoRepository;
+	
+	@Autowired
+	private ApiDeCartao apiDeCartao;
 
 	@PutMapping("{idCartao}/aviso_viagem")
-	public ResponseEntity<Object> aviso(@PathVariable String idCartao,
-			@Valid @RequestBody AvisoViagemForm avisoViagemFrom, HttpServletRequest request) {
+	public ResponseEntity<?> aviso(@PathVariable String idCartao,
+			@Valid @RequestBody AvisoViagemForm form, HttpServletRequest request) {
 		Optional<Cartao> optional = cartaoRepository.findByCodigoCartao(idCartao);
 		if (optional.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		Cartao cartao = optional.get();
 		
-		AvisoViagem avisoViagem = avisoViagemFrom.map(cartao, request);
+		try {
+			apiDeCartao.avisoViagem(idCartao, new SolicitacaoAvisoViagem(form));
+		} catch (FeignClientException e) {
+			return ResponseEntity.status(e.status()).build();
+		}
+		
+		AvisoViagem avisoViagem = form.map(cartao, request);
 		cartao.novoAvisoDeViagem(avisoViagem);
 		cartaoRepository.save(cartao);
 		

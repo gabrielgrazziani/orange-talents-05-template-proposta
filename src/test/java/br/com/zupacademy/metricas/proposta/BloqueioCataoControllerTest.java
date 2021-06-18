@@ -32,7 +32,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.zupacademy.metricas.geral.ApiDeCartao;
-import br.com.zupacademy.metricas.geral.ApiDeCartao.Resultado;
+import br.com.zupacademy.metricas.geral.ApiDeCartao.ResultadoBloqueioEnum;
 import br.com.zupacademy.metricas.geral.ApiDeCartao.ResultadoBloqueio;
 import br.com.zupacademy.metricas.geral.ApiDeCartao.SolicitacaoBloqueio;
 import feign.FeignException;
@@ -71,7 +71,7 @@ class BloqueioCataoControllerTest {
 		String jsom = jsom(cartao);
 		
 		when(apiDeCartao.bloqueiaCartao(eq("12345"),any(SolicitacaoBloqueio.class)))
-			.thenReturn(new ResultadoBloqueio(Resultado.BLOQUEADO));
+			.thenReturn(new ResultadoBloqueio(ResultadoBloqueioEnum.BLOQUEADO));
 		
 		mockMvc.perform(put("/cartao/12345/bloquear")
 				.with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_cartoes:write")))

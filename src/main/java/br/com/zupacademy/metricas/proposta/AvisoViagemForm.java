@@ -29,5 +29,13 @@ public class AvisoViagemForm {
 	public AvisoViagem map(Cartao cartao,HttpServletRequest request) {
 		return new AvisoViagem(destino,dataTerminoViagem,cartao,request.getRemoteAddr(),request.getHeader("User-Agent"));
 	}
+	
+	public LocalDate getDataTerminoViagem() {
+		return dataTerminoViagem;
+	}
+	
+	public String getDestino() {
+		return destino;
+	}
 
 }
