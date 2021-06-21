@@ -2,15 +2,18 @@ package br.com.zupacademy.metricas.proposta;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +22,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import br.com.zupacademy.metricas.geral.ApiDeCartao;
 import br.com.zupacademy.metricas.geral.CartaoResponse;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 
 @SpringBootTest
 @AutoConfigureDataJpa
@@ -29,13 +34,16 @@ class AssociarCartaoAUmaPropostaTest {
 	private PropostaReposirory propostaReposirory;
 	
 	@MockBean
+	private Tracer tracer;
+	
+	@MockBean
 	private ApiDeCartao apiDeCartao;
-
+	
 	@Test
 	@Transactional
 	void deveAssociarAsPropostaElegiveis() {
-		var associarCartao = new AssociarCartaoAUmaProposta(propostaReposirory,apiDeCartao);
-		
+		when(tracer.activeSpan()).thenReturn(mock(Span.class));
+		var associarCartao = new AssociarCartaoAUmaProposta(propostaReposirory,apiDeCartao,tracer);
 		
 		Proposta elegivel1 = criaPropostaPersisteEConfiguraOMock("elegivel1@gmail.com",Estado.ELEGIVEL,"123");
 		Proposta naoElegivel = criaPropostaPersisteEConfiguraOMock("naoelegivel@gmail.com",Estado.NAO_ELEGIVEL,"1234");
@@ -60,7 +68,7 @@ class AssociarCartaoAUmaPropostaTest {
 		
 		CartaoResponse cartaoResponse = new CartaoResponse();
 		cartaoResponse.setId(codigoCartao);
-		Mockito.when(apiDeCartao.buscaCartao(elegivel1.getId())).thenReturn(cartaoResponse);
+		when(apiDeCartao.buscaCartao(elegivel1.getId())).thenReturn(cartaoResponse);
 		return elegivel1;
 	}
 	

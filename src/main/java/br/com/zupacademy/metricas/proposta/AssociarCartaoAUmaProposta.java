@@ -27,9 +27,10 @@ public class AssociarCartaoAUmaProposta {
 	@Autowired
 	private Tracer tracer;
 	
-    public AssociarCartaoAUmaProposta(PropostaReposirory propostaReposirory, ApiDeCartao apiDeCartao) {
+    public AssociarCartaoAUmaProposta(PropostaReposirory propostaReposirory, ApiDeCartao apiDeCartao,Tracer tracer) {
 		this.propostaReposirory = propostaReposirory;
 		this.apiDeCartao = apiDeCartao;
+		this.tracer = tracer;
 	}
 
 	@Scheduled(fixedDelayString = "${periodicidade.associar-cartao-a-uma-proposta}")
