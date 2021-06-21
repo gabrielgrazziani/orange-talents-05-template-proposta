@@ -24,6 +24,7 @@ import br.com.zupacademy.metricas.geral.ApiDeAnalise;
 import br.com.zupacademy.metricas.geral.SolicitacaoRequest;
 import br.com.zupacademy.metricas.geral.SolicitacaoResponse;
 import io.micrometer.core.annotation.Timed;
+import io.opentracing.Tracer;
 
 @RestController
 @RequestMapping("/proposta")
@@ -43,6 +44,9 @@ public class PropostaController {
 	@Autowired
 	private ApiDeAnalise analise;
 	
+	@Autowired
+	private Tracer tracer;
+	
 	@PostMapping
 	@Timed("proposta_timed")
 	public ResponseEntity<?> cria(@Valid @RequestBody PropostaForm form){
@@ -53,6 +57,7 @@ public class PropostaController {
 			return proposta;
 		});
 		
+		tracer.activeSpan().setBaggageItem("user.id", proposta.getId().toString());
 		proposta.setEstado(descobrirEstado(proposta));
 		
 		transactionTemplate.execute(status -> {
