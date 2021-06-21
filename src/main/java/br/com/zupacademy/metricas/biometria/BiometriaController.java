@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.proposta;
+package br.com.zupacademy.metricas.biometria;
 
 import java.net.URI;
 import java.util.List;
@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import br.com.zupacademy.metricas.cartao.Cartao;
+import br.com.zupacademy.metricas.cartao.CartaoRepository;
 
 @RestController
 public class BiometriaController {

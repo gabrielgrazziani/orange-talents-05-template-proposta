@@ -3,7 +3,7 @@ package br.com.zupacademy.metricas.config.feign;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.zupacademy.metricas.geral.SolicitacaoResponse;
+import br.com.zupacademy.metricas.geral.api.SolicitacaoResponse;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 

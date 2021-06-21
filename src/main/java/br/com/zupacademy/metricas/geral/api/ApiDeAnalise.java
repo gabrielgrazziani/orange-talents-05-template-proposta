@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.geral;
+package br.com.zupacademy.metricas.geral.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;

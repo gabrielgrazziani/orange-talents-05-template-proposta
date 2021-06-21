@@ -29,10 +29,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.zupacademy.metricas.geral.ApiDeCartao;
-import br.com.zupacademy.metricas.geral.ApiDeCartao.ResultadoAvisoViagem;
-import br.com.zupacademy.metricas.geral.ApiDeCartao.ResultadoAvisoViagemEnum;
-import br.com.zupacademy.metricas.geral.ApiDeCartao.SolicitacaoAvisoViagem;
+import br.com.zupacademy.metricas.aviso_viagem.AvisoViagem;
+import br.com.zupacademy.metricas.aviso_viagem.AvisoViagemForm;
+import br.com.zupacademy.metricas.cartao.Cartao;
+import br.com.zupacademy.metricas.cartao.CartaoRepository;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao.ResultadoAvisoViagem;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao.ResultadoAvisoViagemEnum;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao.SolicitacaoAvisoViagem;
 import feign.FeignException;
 import feign.Request;
 import feign.Response;

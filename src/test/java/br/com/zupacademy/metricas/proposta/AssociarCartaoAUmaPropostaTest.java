@@ -2,8 +2,6 @@ package br.com.zupacademy.metricas.proposta;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -20,8 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
-import br.com.zupacademy.metricas.geral.ApiDeCartao;
+import br.com.zupacademy.metricas.cartao.AssociarCartaoAUmaProposta;
 import br.com.zupacademy.metricas.geral.CartaoResponse;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
 

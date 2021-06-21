@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.proposta;
+package br.com.zupacademy.metricas.bloqueio;
 
 import java.time.LocalDateTime;
 
@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
+
+import br.com.zupacademy.metricas.cartao.Cartao;
 
 @Entity
 public class Bloqueio {

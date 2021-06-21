@@ -19,6 +19,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import br.com.zupacademy.metricas.biometria.Biometria;
+import br.com.zupacademy.metricas.cartao.Cartao;
+import br.com.zupacademy.metricas.cartao.CartaoRepository;
+
 @SpringBootTest()
 @AutoConfigureMockMvc
 @AutoConfigureDataJpa

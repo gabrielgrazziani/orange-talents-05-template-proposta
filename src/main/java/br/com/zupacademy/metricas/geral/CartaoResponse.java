@@ -1,6 +1,6 @@
 package br.com.zupacademy.metricas.geral;
 
-import br.com.zupacademy.metricas.proposta.Cartao;
+import br.com.zupacademy.metricas.cartao.Cartao;
 
 public class CartaoResponse {
 	

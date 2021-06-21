@@ -20,9 +20,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.zupacademy.metricas.config.feign.SolicitacaoComRestricao;
 import br.com.zupacademy.metricas.config.health_check.MetricasProposta;
-import br.com.zupacademy.metricas.geral.ApiDeAnalise;
-import br.com.zupacademy.metricas.geral.SolicitacaoRequest;
-import br.com.zupacademy.metricas.geral.SolicitacaoResponse;
+import br.com.zupacademy.metricas.geral.api.ApiDeAnalise;
+import br.com.zupacademy.metricas.geral.api.SolicitacaoRequest;
+import br.com.zupacademy.metricas.geral.api.SolicitacaoResponse;
 import io.micrometer.core.annotation.Timed;
 import io.opentracing.Tracer;
 

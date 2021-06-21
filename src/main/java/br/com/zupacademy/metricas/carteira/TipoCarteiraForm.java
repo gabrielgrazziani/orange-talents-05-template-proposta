@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.proposta;
+package br.com.zupacademy.metricas.carteira;
 
 public enum TipoCarteiraForm {
 	PAY_PAL(TipoCarteira.PAY_PAL),

@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.geral;
+package br.com.zupacademy.metricas.geral.api;
 
 public class SolicitacaoResponse {
 	

@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.proposta;
+package br.com.zupacademy.metricas.biometria;
 
 
 import javax.validation.constraints.NotNull;
@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
+import br.com.zupacademy.metricas.cartao.Cartao;
 import br.com.zupacademy.metricas.geral.Base64;
 
 public class BiometriaForm {

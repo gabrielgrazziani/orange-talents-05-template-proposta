@@ -31,8 +31,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.zupacademy.metricas.config.feign.SolicitacaoComRestricao;
-import br.com.zupacademy.metricas.geral.ApiDeAnalise;
-import br.com.zupacademy.metricas.geral.SolicitacaoResponse;
+import br.com.zupacademy.metricas.geral.api.ApiDeAnalise;
+import br.com.zupacademy.metricas.geral.api.SolicitacaoResponse;
 
 @SpringBootTest
 @AutoConfigureMockMvc

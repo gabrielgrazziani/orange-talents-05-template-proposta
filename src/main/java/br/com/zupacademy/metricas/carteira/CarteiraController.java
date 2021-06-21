@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.proposta;
+package br.com.zupacademy.metricas.carteira;
 
 import java.net.URI;
 import java.util.Optional;
@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.zupacademy.metricas.geral.ApiDeCartao;
-import br.com.zupacademy.metricas.geral.ApiDeCartao.SolicitacaoCarteira;
+import br.com.zupacademy.metricas.cartao.Cartao;
+import br.com.zupacademy.metricas.cartao.CartaoRepository;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao.SolicitacaoCarteira;
 import feign.FeignException.FeignClientException;
 
 @RestController

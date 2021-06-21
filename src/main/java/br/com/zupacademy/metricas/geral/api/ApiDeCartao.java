@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.geral;
+package br.com.zupacademy.metricas.geral.api;
 
 import java.time.LocalDate;
 
@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import br.com.zupacademy.metricas.proposta.AvisoViagemForm;
-import br.com.zupacademy.metricas.proposta.CarteiraForm;
+import br.com.zupacademy.metricas.aviso_viagem.AvisoViagemForm;
+import br.com.zupacademy.metricas.carteira.CarteiraForm;
+import br.com.zupacademy.metricas.geral.CartaoResponse;
 
 @FeignClient(name = "cartao",url = "${cartao.host}")
 public interface ApiDeCartao {

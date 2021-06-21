@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.proposta;
+package br.com.zupacademy.metricas.aviso_viagem;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +12,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 
 import com.sun.istack.NotNull;
+
+import br.com.zupacademy.metricas.cartao.Cartao;
 
 @Entity
 public class AvisoViagem {

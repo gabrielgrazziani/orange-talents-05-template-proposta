@@ -31,10 +31,13 @@ import org.springframework.transaction.support.TransactionTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.zupacademy.metricas.geral.ApiDeCartao;
-import br.com.zupacademy.metricas.geral.ApiDeCartao.ResultadoBloqueioEnum;
-import br.com.zupacademy.metricas.geral.ApiDeCartao.ResultadoBloqueio;
-import br.com.zupacademy.metricas.geral.ApiDeCartao.SolicitacaoBloqueio;
+import br.com.zupacademy.metricas.bloqueio.Bloqueio;
+import br.com.zupacademy.metricas.cartao.Cartao;
+import br.com.zupacademy.metricas.cartao.CartaoRepository;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao.ResultadoBloqueio;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao.ResultadoBloqueioEnum;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao.SolicitacaoBloqueio;
 import feign.FeignException;
 import feign.Request;
 import feign.Response;

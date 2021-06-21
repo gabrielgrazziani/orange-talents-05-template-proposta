@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.proposta;
+package br.com.zupacademy.metricas.aviso_viagem;
 
 import java.util.Optional;
 
@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.zupacademy.metricas.geral.ApiDeCartao;
-import br.com.zupacademy.metricas.geral.ApiDeCartao.SolicitacaoAvisoViagem;
+import br.com.zupacademy.metricas.cartao.Cartao;
+import br.com.zupacademy.metricas.cartao.CartaoRepository;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao.SolicitacaoAvisoViagem;
 import feign.FeignException.FeignClientException;
 
 @RestController

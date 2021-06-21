@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.proposta;
+package br.com.zupacademy.metricas.carteira;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import br.com.zupacademy.metricas.cartao.Cartao;
 
 @Entity
 public class Carteira {

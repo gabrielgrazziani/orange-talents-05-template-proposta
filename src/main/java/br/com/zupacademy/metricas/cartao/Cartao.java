@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.proposta;
+package br.com.zupacademy.metricas.cartao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+
+import br.com.zupacademy.metricas.aviso_viagem.AvisoViagem;
+import br.com.zupacademy.metricas.biometria.Biometria;
+import br.com.zupacademy.metricas.bloqueio.Bloqueio;
+import br.com.zupacademy.metricas.carteira.Carteira;
+import br.com.zupacademy.metricas.carteira.TipoCarteira;
 
 @Entity
 public class Cartao {

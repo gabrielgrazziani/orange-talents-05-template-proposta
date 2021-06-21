@@ -1,4 +1,4 @@
-package br.com.zupacademy.metricas.proposta;
+package br.com.zupacademy.metricas.cartao;
 
 import java.util.List;
 
@@ -9,8 +9,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import br.com.zupacademy.metricas.geral.ApiDeCartao;
 import br.com.zupacademy.metricas.geral.CartaoResponse;
+import br.com.zupacademy.metricas.geral.api.ApiDeCartao;
+import br.com.zupacademy.metricas.proposta.Estado;
+import br.com.zupacademy.metricas.proposta.Proposta;
+import br.com.zupacademy.metricas.proposta.PropostaReposirory;
 import feign.FeignException;
 import io.opentracing.Tracer;
 
