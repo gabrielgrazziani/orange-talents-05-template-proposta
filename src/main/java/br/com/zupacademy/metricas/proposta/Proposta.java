@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import br.com.zupacademy.metricas.cartao.Cartao;
-import br.com.zupacademy.metricas.geral.CpfOuCnpj;
 
 @Entity
 public class Proposta {
@@ -27,7 +26,6 @@ public class Proposta {
 	private Long id;
 	
 	@NotBlank
-	@CpfOuCnpj
 	private String documento;
 	@NotBlank
 	@Email
@@ -48,7 +46,7 @@ public class Proposta {
 	public Proposta(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome,
 			@NotBlank String enderaco, @NotNull @PositiveOrZero BigDecimal salario) {
 		super();
-		this.documento = documento;
+		this.documento = CriptografiaDocumento.criptografa(documento);
 		this.email = email;
 		this.nome = nome;
 		this.enderaco = enderaco;
@@ -77,7 +75,7 @@ public class Proposta {
 	}
 	
 	public String getDocumento() {
-		return documento;
+		return CriptografiaDocumento.descriptografa(documento);
 	}
 
 	public Estado getEstado() {
